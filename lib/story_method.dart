@@ -11,7 +11,7 @@ class StoryAnnotation extends ClassAnnotation {
     _knobFields.add(
       (FieldBuilder()
             ..type = const Reference('BuildContext')
-            ..name = 'buildContext')
+            ..name = 'context')
           .build(),
     );
 
@@ -33,37 +33,70 @@ class StoryAnnotation extends ClassAnnotation {
     return _knobFields;
   }
 
-  @override
-  void apply(Class target, LibraryBuilder output) {
-    _addImports(output);
+  Iterable<Field> _getFields(Class target) {
+    Iterable<Field> _knobFields = _fieldsToKnobs(target.fields.toList());
 
+    return _knobFields;
+  }
+
+  String _getStoryWrapper(Class target) {
     var storyWrapperBuffer = StringBuffer();
 
-    _writeStoryWrapper(storyWrapperBuffer, target);
+    storyWrapperBuffer.writeln('return Story(');
+    storyWrapperBuffer.writeln('name: \'${target.name}\',');
+    storyWrapperBuffer.writeln('builder: (context) => super.build(context),');
+    storyWrapperBuffer.writeln(');');
 
-    Iterable<Field> _knobFields = _fieldsToKnobs(target.fields.toList());
+    return storyWrapperBuffer.toString();
+  }
+
+  Constructor _getConstructor(Class target) {
+    var keyParameter = (ParameterBuilder()
+          ..name = 'key'
+          ..type = Reference('Key?')
+          ..named = true)
+        .build();
+
+    var buildContextParameter = (ParameterBuilder()
+          ..name = 'context'
+          ..type = Reference('BuildContext')
+          ..named = true
+          ..required = true)
+        .build();
+
+    var myConstructor = ConstructorBuilder()
+      ..optionalParameters.addAll([keyParameter, buildContextParameter])
+      ..initializers.add(Code('super(key: key)'));
+
+    return myConstructor.build();
+  }
+
+  @override
+  void apply(Class target, LibraryBuilder output) {
+    _addImports(target, output);
 
     output.body.add(
       Class(
         (b) => b
           ..name = '${target.name}Story'
-          ..extend = target.extend
+          ..extend = Reference('${target.name}')
           ..methods.add(
             Method(
               (p0) => p0
                 ..name = 'getStory'
                 ..returns = const Reference('Story')
                 ..body = Code(
-                  storyWrapperBuffer.toString(),
+                  _getStoryWrapper(target),
                 ),
             ),
           )
-          ..fields.addAll(_knobFields),
+          ..fields.addAll(_getFields(target))
+          ..constructors.add(_getConstructor(target)),
       ),
     );
   }
 
-  void _addImports(LibraryBuilder output) {
+  void _addImports(Class target, LibraryBuilder output) {
     output.body.add(
       Code('import \'package:storybook_flutter/storybook_flutter.dart\';\n'),
     );
@@ -71,12 +104,11 @@ class StoryAnnotation extends ClassAnnotation {
     output.body.add(
       Code('import \'package:flutter/material.dart\';\n'),
     );
-  }
 
-  void _writeStoryWrapper(StringBuffer buffer, Class target) {
-    buffer.writeln('return Story(');
-    buffer.writeln('name: \'${target.name}\',');
-    buffer.writeln('builder: (context) => super.build(context),');
-    buffer.writeln(');');
+    // Allocator().allocate('MyButton', '')
+
+    output.body.add(
+      Code('import \'my_widget.dart\';\n'),
+    );
   }
 }
