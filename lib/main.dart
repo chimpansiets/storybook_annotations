@@ -15,7 +15,7 @@ class CodeGenExample extends StatelessWidget {
     return Storybook(
       stories: [
         Story(
-          name: 'myStory',
+          name: 'MyButtonStory',
           builder: (context) => MyButtonStory(context: context),
         ),
       ],

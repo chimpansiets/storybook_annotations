@@ -9,10 +9,7 @@ class MyButtonStory extends MyButton {
 
   final BuildContext context;
 
-  Story getStory() {
-    return Story(
-      name: 'MyButton',
-      builder: (context) => super.build(context),
-    );
+  Widget getStory() {
+    return super.build(context);
   }
 }

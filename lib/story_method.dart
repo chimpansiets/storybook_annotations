@@ -13,10 +13,7 @@ class StoryAnnotation extends ClassAnnotation {
   String _getStoryWrapper(Class target) {
     var storyWrapperBuffer = StringBuffer();
 
-    storyWrapperBuffer.writeln('return Story(');
-    storyWrapperBuffer.writeln('name: \'${target.name}\',');
-    storyWrapperBuffer.writeln('builder: (context) => super.build(context),');
-    storyWrapperBuffer.writeln(');');
+    storyWrapperBuffer.writeln('return super.build(context);');
 
     return storyWrapperBuffer.toString();
   }
@@ -34,7 +31,7 @@ class StoryAnnotation extends ClassAnnotation {
             Method(
               (p0) => p0
                 ..name = 'getStory'
-                ..returns = const Reference('Story')
+                ..returns = const Reference('Widget')
                 ..body = Code(
                   _getStoryWrapper(target),
                 ),
