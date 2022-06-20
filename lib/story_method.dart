@@ -1,7 +1,14 @@
 import 'package:super_annotations/super_annotations.dart';
 
+class OptionAnnotation extends FunctionAnnotation {
+  @override
+  void apply(Method target, LibraryBuilder output) {
+    // TODO: implement apply
+  }
+}
+
 class StoryAnnotation extends ClassAnnotation {
-  final List<Type> parameters;
+  final List<Object> parameters;
 
   const StoryAnnotation(this.parameters);
 
@@ -10,22 +17,17 @@ class StoryAnnotation extends ClassAnnotation {
 
     _knobFields.add(
       (FieldBuilder()
-            ..type = const Reference('BuildContext')
+            ..type = const Reference('final BuildContext')
             ..name = 'context')
           .build(),
     );
 
     fields.forEach(
       (element) {
-        var tmp_field = element.toBuilder();
-
-        tmp_field.assignment = Code(
-          'context.knobs.text(label: \'L\', initial: \'T\')',
-        );
+        var tmp_field = element.toBuilder()..late = true;
 
         var built_field = tmp_field.build();
 
-        print(tmp_field.assignment.toString());
         _knobFields.add(tmp_field.build());
       },
     );
@@ -58,7 +60,7 @@ class StoryAnnotation extends ClassAnnotation {
         .build();
 
     var buildContextParameter = (ParameterBuilder()
-          ..name = 'context'
+          ..name = 'this.context'
           ..type = Reference('BuildContext')
           ..named = true
           ..required = true)
@@ -66,7 +68,9 @@ class StoryAnnotation extends ClassAnnotation {
 
     var myConstructor = ConstructorBuilder()
       ..optionalParameters.addAll([keyParameter, buildContextParameter])
-      ..initializers.add(Code('super(key: key)'));
+      ..initializers.add(Code('super(key: key)'))
+      ..body =
+          Code('myText = context.knobs.text(label: \'L\', initial: \'T\');');
 
     return myConstructor.build();
   }

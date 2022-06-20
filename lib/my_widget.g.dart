@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'my_widget.dart';
 
 class MyButtonStory extends MyButton {
-  MyButtonStory({Key? key, required BuildContext context}) : super(key: key);
+  MyButtonStory({Key? key, required BuildContext this.context})
+      : super(key: key) {
+    myText = context.knobs.text(label: 'L', initial: 'T');
+  }
 
-  BuildContext context;
+  final BuildContext context;
 
-  final String myText = context.knobs.text(label: 'L', initial: 'T');
+  late final String myText;
 
   Story getStory() {
     return Story(
