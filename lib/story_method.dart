@@ -5,27 +5,45 @@ import 'package:new_example/utils/methods_util.dart';
 import 'package:super_annotations/super_annotations.dart';
 import 'utils/fields_util.dart';
 
-class StoryAnnotation extends ClassAnnotation {
+class GenerateStory extends ClassAnnotation {
   final List<Object> parameters;
 
-  const StoryAnnotation(this.parameters);
+  const GenerateStory(this.parameters);
 
   @override
   void apply(Class target, LibraryBuilder output) {
-    print("output: ");
     addImports(target, output);
 
     output.body.add(
-      Class(
-        (b) => b
-          ..name = '${target.name}Story'
-          ..extend = Reference(target.name)
-          ..fields.addAll(getFields(target))
-          ..constructors.add(getConstructor(target))
-          ..methods.addAll(
-            getMethods(target),
-          ),
-      ),
+      _generatePublicStoryClass(target),
     );
+
+    output.body.add(
+      _generatePrivateExtensionClass(target),
+    );
+  }
+
+  Class _generatePublicStoryClass(Class target) {
+    return Class(
+      (b) => b
+        ..name = '${target.name}Story'
+        ..fields.add(
+          Field(
+            ((p0) => p0
+              ..name = 'story'
+              ..type = const Reference('Story')
+              ..assignment = Code(
+                  'Story(name: \'${target.name}Story\',builder: (context) => _\$${target.name}Story(context: context),)')),
+          ),
+        ),
+    );
+  }
+
+  Class _generatePrivateExtensionClass(Class target) {
+    return Class((b) => b
+      ..name = '_\$${target.name}Story'
+      ..extend = Reference(target.name)
+      ..fields.addAll(getFields(target))
+      ..constructors.add(getConstructor(target)));
   }
 }

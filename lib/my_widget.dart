@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 part 'my_widget.g.dart';
 
-@StoryAnnotation([])
+@GenerateStory([])
 class MyButton extends StatelessWidget {
   final String myText;
 
