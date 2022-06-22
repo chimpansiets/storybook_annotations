@@ -13,14 +13,13 @@ void initSuperFields(StringBuffer buffer, Class target) {
   List<Field> fields = target.fields.toList();
 
   for (var field in fields) {
-    print(field.name);
     String? fieldKnobType = getFieldKnobType(field);
 
     if (fieldKnobType == null) {
       continue;
     }
 
-    buffer.writeln('super.${field.name} = context.knobs.$fieldKnobType');
+    buffer.writeln('${field.name}Knob = context.knobs.$fieldKnobType');
   }
 }
 
@@ -31,7 +30,7 @@ String getStoryWrapper(Class target) {
   storyWrapperBuffer.writeln('name: \'MyButtonStory\',');
   storyWrapperBuffer.writeln('builder: (context) {');
   initSuperFields(storyWrapperBuffer, target);
-  storyWrapperBuffer.writeln('return super.build(context);');
+  storyWrapperBuffer.writeln('return build(context);');
   storyWrapperBuffer.writeln('},');
   storyWrapperBuffer.writeln(');');
 

@@ -1,30 +1,18 @@
 part of 'my_widget.dart';
 
-class MyButtonStory extends MyButton {
+class MyButtonStory {
+  Story story = Story(
+    name: 'MyButtonStory',
+    builder: (context) => _$MyButtonStory(context: context),
+  );
+}
+
+class _$MyButtonStory extends MyButton {
   final BuildContext context;
-  late String myTextKnob;
 
-  MyButtonStory({Key? key, required this.context})
-      : super(key: key, myText: 'T');
-
-  @override
-  Widget build(BuildContext context) {
-    myTextKnob = context.knobs.text(label: 'myTextLabel', initial: 'null');
-
-    return Center(
-      child: TextButton(
-        onPressed: () {},
-        child: Text(myTextKnob),
-      ),
-    );
-  }
-
-  Story getStory() {
-    return Story(
-      name: 'MyButtonStory',
-      builder: (context) {
-        return build(context);
-      },
-    );
-  }
+  _$MyButtonStory({Key? key, required this.context})
+      : super(
+          key: key,
+          myText: context.knobs.text(label: 'L', initial: 'T'),
+        );
 }

@@ -13,7 +13,7 @@ class CodeGenExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Storybook(
       stories: [
-        MyButtonStory(context: context).getStory(),
+        MyButtonStory().story,
       ],
     );
   }
