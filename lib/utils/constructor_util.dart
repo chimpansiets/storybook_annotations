@@ -28,7 +28,7 @@ String? getKnobType(Field field) {
   print(field.type!.symbol);
   Map<String, String> symbolToKnobMap = {
     'String':
-        'text(label: \'${field.name}Label\', initial: \'${field.name}Initial\')',
+        'text(label: \'${field.name}Label\', initial: \'${field.name}Initial\'),',
   };
 
   return symbolToKnobMap[field.type!.symbol];
@@ -43,7 +43,7 @@ Code getSuperConstructor(Class target) {
     buffer.writeln('${field.name}: context.knobs.${getKnobType(field)}');
   }
 
-  buffer.writeln(',)');
+  buffer.writeln(')');
 
   return Code(buffer.toString());
 }

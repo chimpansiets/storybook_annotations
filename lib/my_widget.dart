@@ -11,15 +11,23 @@ part 'my_widget.g.dart';
 @GenerateStory([])
 class MyButton extends StatelessWidget {
   final String myText;
+  final String mySecondText;
 
-  const MyButton({Key? key, required this.myText}) : super(key: key);
+  const MyButton({Key? key, required this.myText, required this.mySecondText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: TextButton(
-        onPressed: () {},
-        child: Text(myText),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: () {},
+            child: Text(myText),
+          ),
+          Text(mySecondText),
+        ],
       ),
     );
   }

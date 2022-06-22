@@ -13,6 +13,8 @@ class _$MyButtonStory extends MyButton {
           key: key,
           myText: context.knobs
               .text(label: 'myTextLabel', initial: 'myTextInitial'),
+          mySecondText: context.knobs
+              .text(label: 'mySecondTextLabel', initial: 'mySecondTextInitial'),
         );
 
   final BuildContext context;
