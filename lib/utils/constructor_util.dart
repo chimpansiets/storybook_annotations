@@ -18,8 +18,7 @@ Constructor getConstructor(Class target) {
     ..initializers.add(
       // TODO: Go through super.fields and initialize them with knobs
       // instead of this hardcoded text knob
-      const Code(
-          'super(key: key, myText: context.knobs.text(label: \'L\', initial: \'T\'),)'),
+      const Code('super(key: key, myText: \'T\')'),
     );
 
   return myConstructor.build();
