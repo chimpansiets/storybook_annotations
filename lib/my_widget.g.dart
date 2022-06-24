@@ -13,8 +13,20 @@ class _$MyButtonStory extends MyButton {
           key: key,
           myText: context.knobs
               .text(label: 'myTextLabel', initial: 'myTextInitial'),
-          mySecondText: context.knobs
-              .text(label: 'mySecondTextLabel', initial: 'mySecondTextInitial'),
+          height: context.knobs.sliderInt(
+            label: 'heightLabel',
+            initial: 0,
+            min: 0,
+            max: 200,
+            divisions: 100,
+          ),
+          width: context.knobs.sliderInt(
+            label: 'widthLabel',
+            initial: 0,
+            min: 0,
+            max: 250,
+            divisions: 100,
+          ),
         );
 
   final BuildContext context;

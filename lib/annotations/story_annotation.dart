@@ -3,10 +3,11 @@ import 'package:new_example/utils/fields_util.dart';
 import 'package:new_example/utils/import_util.dart';
 import 'package:new_example/utils/methods_util.dart';
 import 'package:super_annotations/super_annotations.dart';
-import 'utils/fields_util.dart';
+
+part 'sliderint_annotation.dart';
 
 class GenerateStory extends ClassAnnotation {
-  final List<Object> parameters;
+  final List<dynamic> parameters;
 
   const GenerateStory(this.parameters);
 
@@ -40,10 +41,12 @@ class GenerateStory extends ClassAnnotation {
   }
 
   Class _generatePrivateExtensionClass(Class target) {
-    return Class((b) => b
-      ..name = '_\$${target.name}Story'
-      ..extend = Reference(target.name)
-      ..fields.addAll(getFields(target))
-      ..constructors.add(getConstructor(target)));
+    return Class(
+      (b) => b
+        ..name = '_\$${target.name}Story'
+        ..extend = Reference(target.name)
+        ..fields.addAll(getFields(target))
+        ..constructors.add(getConstructor(parameters, target)),
+    );
   }
 }
