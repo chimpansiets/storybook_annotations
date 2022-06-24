@@ -1,10 +1,10 @@
-import 'package:new_example/utils/constructor_util.dart';
-import 'package:new_example/utils/fields_util.dart';
-import 'package:new_example/utils/import_util.dart';
-import 'package:new_example/utils/methods_util.dart';
+import 'package:storybook_annotations/utils/constructor_util.dart';
+import 'package:storybook_annotations/utils/fields_util.dart';
+import 'package:storybook_annotations/utils/import_util.dart';
 import 'package:super_annotations/super_annotations.dart';
 
-part 'sliderint_annotation.dart';
+part '../parameters/sliderint_parameter.dart';
+part '../parameters/slider_parameter.dart';
 
 class GenerateStory extends ClassAnnotation {
   final List<dynamic> parameters;

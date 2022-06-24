@@ -29,7 +29,9 @@ String? getKnobType(List<dynamic> parameters, Field field) {
     'String':
         'text(label: \'${field.name}Label\', initial: \'${field.name}Initial\')',
     'int':
-        'sliderInt(label: \'${field.name}Label\', initial: ${parameters.first.initial}, min: ${parameters.first.min}, max: ${parameters.first.max}, divisions: ${parameters.first.divisions},)',
+        'sliderInt(label: \'${parameters.first.label}\', initial: ${parameters.first.initial}, min: ${parameters.first.min}, max: ${parameters.first.max}, divisions: ${parameters.first.divisions},)',
+    'double':
+        'slider(label: \'${parameters.first.label}\', initial: ${parameters.first.initial}, min: ${parameters.first.min}, max: ${parameters.first.max},)',
   };
 
   return symbolToKnobMap[field.type!.symbol];
@@ -45,7 +47,7 @@ Code getSuperConstructor(List<dynamic> parameters, Class target) {
         '${field.name}: context.knobs.${getKnobType(parameters, field)},');
 
     // if a parameter was used, pop it from the list
-    if (field.type!.symbol == 'int') {
+    if (field.type!.symbol == 'int' || field.type!.symbol == 'double') {
       parameters.removeAt(0);
     }
   }
