@@ -1,3 +1,4 @@
+import 'package:storybook_annotations/storybook_annotations.dart';
 import 'package:super_annotations/super_annotations.dart';
 
 Constructor getConstructor(List<dynamic> parameters, Class target) {
@@ -25,17 +26,27 @@ Constructor getConstructor(List<dynamic> parameters, Class target) {
 }
 
 String? getKnobType(List<dynamic> parameters, Field field) {
+  print("Symbol of ${field.name}:");
+  print(field.type!.symbol);
   Map<String, String> symbolToKnobMap = {
-    'String':
-        'text(label: \'${field.name}Label\', initial: \'${field.name}Initial\')',
-    'int':
-        'sliderInt(label: \'${parameters.first.label}\', initial: ${parameters.first.initial}, min: ${parameters.first.min}, max: ${parameters.first.max}, divisions: ${parameters.first.divisions},)',
-    'double':
-        'slider(label: \'${parameters.first.label}\', initial: ${parameters.first.initial}, min: ${parameters.first.min}, max: ${parameters.first.max},)',
+    'String': getTextKnobInitializer(field),
+    'int': getSliderIntInitializer(
+        parameters.firstWhere((element) => element is SliderIntParameter)),
+    'double': getSliderInitializer(
+        parameters.firstWhere((element) => element is SliderParameter)),
   };
 
   return symbolToKnobMap[field.type!.symbol];
 }
+
+String getTextKnobInitializer(Field field) =>
+    'text(label: \'${field.name}Label\', initial: \'${field.name}Initial\')';
+
+String getSliderInitializer(SliderParameter parameter) =>
+    'slider(label: \'${parameter.label}\', initial: ${parameter.initial}, min: ${parameter.min}, max: ${parameter.max},)';
+
+String getSliderIntInitializer(SliderIntParameter parameter) =>
+    'sliderInt(label: \'${parameter.label}\', initial: ${parameter.initial}, min: ${parameter.min}, max: ${parameter.max}, divisions: ${parameter.divisions},)';
 
 Code getSuperConstructor(List<dynamic> parameters, Class target) {
   StringBuffer buffer = StringBuffer();
@@ -43,12 +54,17 @@ Code getSuperConstructor(List<dynamic> parameters, Class target) {
   buffer.writeln('super(key: key,');
 
   for (var field in target.fields) {
+    print("Field: $field");
     buffer.writeln(
         '${field.name}: context.knobs.${getKnobType(parameters, field)},');
 
     // if a parameter was used, pop it from the list
-    if (field.type!.symbol == 'int' || field.type!.symbol == 'double') {
-      parameters.removeAt(0);
+    if (field.type!.symbol == 'int') {
+      parameters.remove(
+          parameters.firstWhere((element) => element is SliderIntParameter));
+    } else if (field.type!.symbol == 'double') {
+      parameters.remove(
+          parameters.firstWhere((element) => element is SliderParameter));
     }
   }
 

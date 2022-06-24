@@ -21,7 +21,7 @@ part 'my_widget.g.dart';
     initial: 0.0,
     min: 0.0,
     max: 250.0,
-  )
+  ),
 ])
 class MyButton extends StatelessWidget {
   final String myText;
