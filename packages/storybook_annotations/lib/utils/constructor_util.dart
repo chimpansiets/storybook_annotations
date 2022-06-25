@@ -19,6 +19,7 @@ Constructor getConstructor(List<dynamic> parameters, Class target) {
     ..initializers.add(
       // TODO: Go through super.fields and initialize them with knobs
       // instead of this hardcoded text knob
+      // Code('super(key: key)')
       getSuperConstructor(parameters, target),
     );
 
@@ -26,17 +27,23 @@ Constructor getConstructor(List<dynamic> parameters, Class target) {
 }
 
 String? getKnobType(List<dynamic> parameters, Field field) {
-  print("Symbol of ${field.name}:");
-  print(field.type!.symbol);
-  Map<String, String> symbolToKnobMap = {
-    'String': getTextKnobInitializer(field),
-    'int': getSliderIntInitializer(
-        parameters.firstWhere((element) => element is SliderIntParameter)),
-    'double': getSliderInitializer(
-        parameters.firstWhere((element) => element is SliderParameter)),
-  };
-
-  return symbolToKnobMap[field.type!.symbol];
+  // Map<String, String> symbolToKnobMap = {
+  //   'String': getTextKnobInitializer(field),
+  //   'int': getSliderIntInitializer(
+  //       parameters.firstWhere((element) => element is SliderIntParameter)),
+  //   'double': getSliderInitializer(
+  //       parameters.firstWhere((element) => element is SliderParameter)),
+  // };
+  switch (field.type!.symbol) {
+    case 'String':
+      return getTextKnobInitializer(field);
+    case 'int':
+      return getSliderIntInitializer(
+          parameters.firstWhere((element) => element is SliderIntParameter));
+    case 'double':
+      return getSliderInitializer(
+          parameters.firstWhere((element) => element is SliderParameter));
+  }
 }
 
 String getTextKnobInitializer(Field field) =>
