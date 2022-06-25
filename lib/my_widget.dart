@@ -27,13 +27,15 @@ class MyButton extends StatelessWidget {
   final String myText;
   final int height;
   final double width;
+  final bool enabled;
 
-  const MyButton(
-      {Key? key,
-      required this.myText,
-      required this.height,
-      required this.width})
-      : super(key: key);
+  const MyButton({
+    Key? key,
+    required this.myText,
+    required this.height,
+    required this.width,
+    required this.enabled,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,7 @@ class MyButton extends StatelessWidget {
                 primary: Colors.white,
                 textStyle: const TextStyle(fontSize: 20),
               ),
-              onPressed: () {},
+              onPressed: enabled ? () {} : null,
               child: Text(myText),
             ),
           ],

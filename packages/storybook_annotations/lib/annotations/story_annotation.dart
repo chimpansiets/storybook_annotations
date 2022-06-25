@@ -5,6 +5,7 @@ import 'package:super_annotations/super_annotations.dart';
 
 part '../parameters/sliderint_parameter.dart';
 part '../parameters/slider_parameter.dart';
+part '../parameters//options_parameter.dart';
 
 class GenerateStory extends ClassAnnotation {
   final List<dynamic> parameters;
