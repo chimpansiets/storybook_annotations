@@ -1,7 +1,9 @@
 part of '../annotations/story_annotation.dart';
 
 class OptionsParameter {
-  final List<Option<T>>? options;
+  final String label;
+  final dynamic initial;
+  final List<dynamic>? options;
 
-  OptionsParameter({this.options});
+  const OptionsParameter(this.label, {required this.initial, this.options});
 }

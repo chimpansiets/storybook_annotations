@@ -45,6 +45,14 @@ void main(List<String> args, SendPort port) {
             ..isNullable = false)
           ..modifier = FieldModifier.final$
           ..static = false
+          ..late = false),
+        Field((f) => f
+          ..name = 'color'
+          ..type = TypeReference((t) => t
+            ..symbol = 'Color'
+            ..isNullable = false)
+          ..modifier = FieldModifier.final$
+          ..static = false
           ..late = false)
       ])
       ..constructors.addAll([
@@ -96,6 +104,15 @@ void main(List<String> args, SendPort port) {
               ..toThis = true
               ..named = true
               ..required = true
+              ..defaultTo = null),
+            Parameter((p) => p
+              ..name = 'color'
+              ..type = TypeReference((t) => t
+                ..symbol = 'Color'
+                ..isNullable = false)
+              ..toThis = true
+              ..named = true
+              ..required = true
               ..defaultTo = null)
           ]))
       ])
@@ -127,19 +144,31 @@ void main(List<String> args, SendPort port) {
               SliderIntParameter('MyHeightLabel',
                   initial: 0, min: 0, max: 200, divisions: 100),
               SliderParameter('MyWidthLabel',
-                  initial: 0.0, min: 0.0, max: 250.0)
+                  initial: 0.0, min: 0.0, max: 250.0),
+              OptionsParameter('ColorLabel', initial: Colors.orange, options: [
+                Option(label: 'Orange', value: Colors.orange),
+                Option(label: 'White', value: Colors.white)
+              ])
             ]),
-            '@GenerateStory([SliderIntParameter(\'MyHeightLabel\', initial: 0, min: 0, max: 200, divisions: 100), SliderParameter(\'MyWidthLabel\', initial: 0.0, min: 0.0, max: 250.0)])')
+            '@GenerateStory([SliderIntParameter(\'MyHeightLabel\', initial: 0, min: 0, max: 200, divisions: 100), SliderParameter(\'MyWidthLabel\', initial: 0.0, min: 0.0, max: 250.0), OptionsParameter(\'ColorLabel\', initial: Colors.orange, options: [Option(label: \'Orange\', value: Colors.orange), Option(label: \'White\', value: Colors.white)])])')
       ])
       ..run((c) => GenerateStory([
             SliderIntParameter('MyHeightLabel',
                 initial: 0, min: 0, max: 200, divisions: 100),
-            SliderParameter('MyWidthLabel', initial: 0.0, min: 0.0, max: 250.0)
+            SliderParameter('MyWidthLabel', initial: 0.0, min: 0.0, max: 250.0),
+            OptionsParameter('ColorLabel', initial: Colors.orange, options: [
+              Option(label: 'Orange', value: Colors.orange),
+              Option(label: 'White', value: Colors.white)
+            ])
           ]).modify(c)))
       ..run((c) => GenerateStory([
             SliderIntParameter('MyHeightLabel',
                 initial: 0, min: 0, max: 200, divisions: 100),
-            SliderParameter('MyWidthLabel', initial: 0.0, min: 0.0, max: 250.0)
+            SliderParameter('MyWidthLabel', initial: 0.0, min: 0.0, max: 250.0),
+            OptionsParameter('ColorLabel', initial: Colors.orange, options: [
+              Option(label: 'Orange', value: Colors.orange),
+              Option(label: 'White', value: Colors.white)
+            ])
           ]).apply(c, l));
   });
   port.send(

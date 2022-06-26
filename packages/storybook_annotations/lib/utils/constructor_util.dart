@@ -1,4 +1,4 @@
-import 'package:storybook_annotations/storybook_annotations.dart';
+import 'package:storybook_annotations/annotations/story_annotation.dart';
 import 'package:super_annotations/super_annotations.dart';
 
 Constructor getConstructor(List<dynamic> parameters, Class target) {
@@ -19,6 +19,7 @@ Constructor getConstructor(List<dynamic> parameters, Class target) {
     ..initializers.add(
       // TODO: Go through super.fields and initialize them with knobs
       // instead of this hardcoded text knob
+      // Code('super(key: key)'),
       getSuperConstructor(parameters, target),
     );
 
@@ -38,14 +39,21 @@ String? getKnobType(List<dynamic> parameters, Field field) {
           parameters.firstWhere((element) => element is SliderParameter));
     case 'bool':
       return getBooleanInitializer(field);
+    default:
+      return getOptionsInitializer(
+        parameters.firstWhere((element) => element is OptionsParameter),
+      );
   }
 }
 
+String getOptionsInitializer(OptionsParameter parameter) =>
+    'options(label: ${parameter.label}, initial: ${parameter.initial}, options: ${parameter.options.toString()},)';
+
 String getBooleanInitializer(Field field) =>
-    'boolean(label: \'${field.name}Label\', initial: false)';
+    'boolean(label: \'${field.name}Label\', initial: false,)';
 
 String getTextKnobInitializer(Field field) =>
-    'text(label: \'${field.name}Label\', initial: \'${field.name}Initial\')';
+    'text(label: \'${field.name}Label\', initial: \'${field.name}Initial\',)';
 
 String getSliderInitializer(SliderParameter parameter) =>
     'slider(label: \'${parameter.label}\', initial: ${parameter.initial}, min: ${parameter.min}, max: ${parameter.max},)';
@@ -59,7 +67,6 @@ Code getSuperConstructor(List<dynamic> parameters, Class target) {
   buffer.writeln('super(key: key,');
 
   for (var field in target.fields) {
-    print("Field: $field");
     buffer.writeln(
         '${field.name}: context.knobs.${getKnobType(parameters, field)},');
 
@@ -70,6 +77,9 @@ Code getSuperConstructor(List<dynamic> parameters, Class target) {
     } else if (field.type!.symbol == 'double') {
       parameters.remove(
           parameters.firstWhere((element) => element is SliderParameter));
+    } else {
+      parameters.remove(
+          parameters.firstWhere((element) => element is OptionsParameter));
     }
   }
 

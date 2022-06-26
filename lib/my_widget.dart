@@ -1,10 +1,10 @@
 @CodeGen()
 library main;
 
+import 'package:flutter/material.dart';
 import 'package:storybook_annotations/storybook_annotations.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import 'package:super_annotations/super_annotations.dart';
-import 'package:flutter/material.dart';
 
 part 'my_widget.g.dart';
 
@@ -22,12 +22,21 @@ part 'my_widget.g.dart';
     min: 0.0,
     max: 250.0,
   ),
+  OptionsParameter(
+    'ColorLabel',
+    initial: Colors.orange,
+    options: [
+      Option(label: 'Orange', value: Colors.orange),
+      Option(label: 'White', value: Colors.white),
+    ],
+  ),
 ])
 class MyButton extends StatelessWidget {
   final String myText;
   final int height;
   final double width;
   final bool enabled;
+  final Color color;
 
   const MyButton({
     Key? key,
@@ -35,6 +44,7 @@ class MyButton extends StatelessWidget {
     required this.height,
     required this.width,
     required this.enabled,
+    required this.color,
   }) : super(key: key);
 
   @override

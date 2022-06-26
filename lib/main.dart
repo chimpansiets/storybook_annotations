@@ -11,6 +11,13 @@ class CodeGenExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.knobs.options(
+      label: 'MyLabel',
+      initial: Colors.orange,
+      options: [
+        const Option(label: 'MyOption1', value: Colors.orange),
+      ],
+    );
     return Storybook(
       stories: [
         MyButtonStory().story,

@@ -37,6 +37,7 @@ dependencies:
 
   storybook_annotations:
     path: ./packages/storybook_annotations
+  storybook_flutter: ^0.11.1
 
 dev_dependencies:
   flutter_test:
