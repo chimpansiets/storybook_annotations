@@ -16,24 +16,22 @@ know whether this package might be useful for them.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Generates Stories to be used within a StoryBook.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+`flutter pub add storybook_annotations`
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Add the annotation '@GenerateStory()' above the widget you would like to generate a story for.
+This copies both boolean, int and double fields with a knob and label.
 
 ```dart
-const like = 'sample';
+@GenerateStory()
+class MyWidget extends StatelessWidget {
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+This package is still a work in progress, and not yet fully done. I decided to release this beginning of the workings, and contributions are very welcome!
