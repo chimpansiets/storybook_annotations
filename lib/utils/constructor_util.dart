@@ -77,10 +77,11 @@ Code getSuperConstructor(List<dynamic> parameters, Class target) {
     } else if (field.type!.symbol == 'double') {
       parameters.remove(
           parameters.firstWhere((element) => element is SliderParameter));
-    } else {
-      parameters.remove(
-          parameters.firstWhere((element) => element is OptionsParameter));
     }
+    // else {
+    //   parameters.remove(
+    //       parameters.firstWhere((element) => element is OptionsParameter));
+    // }
   }
 
   buffer.writeln(')');
